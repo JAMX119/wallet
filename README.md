@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 钱包管理系统
 
-## Getting Started
+一个基于Next.js和Ethers.js构建的Web3钱包管理应用，提供安全、便捷的以太坊钱包创建、导入和资产管理功能。
 
-First, run the development server:
+## 功能特性
+
+- 🔐 **钱包创建** - 生成新的以太坊钱包，包含助记词和私钥保护
+- 🗝️ **钱包导入** - 支持通过助记词导入已有钱包
+- 💼 **资产管理** - 查看钱包余额和交易历史
+- 📝 **助记词备份** - 安全备份和验证助记词
+- 🔒 **本地加密存储** - 钱包数据加密后存储在本地浏览器
+- 🔄 **余额实时更新** - 定期自动刷新钱包余额
+
+## 技术栈
+
+- **前端框架**: [Next.js 15](https://nextjs.org) (App Router + Turbopack)
+- **状态管理**: [Zustand](https://github.com/pmndrs/zustand)
+- **区块链交互**: [Ethers.js v6](https://docs.ethers.org/v6/)
+- **样式系统**: [TailwindCSS v4](https://tailwindcss.com)
+- **编程语言**: TypeScript
+- **构建工具**: Turbopack
+
+## 项目结构
+
+```
+├── app/
+│   ├── [wallet_status]/   # 钱包创建和导入页面
+│   ├── mnemonic/         # 助记词备份和验证页面
+│   ├── wallet/           # 钱包主页面（显示余额等）
+│   ├── welcome/          # 欢迎页面
+│   ├── page.tsx          # 主页（登录/解锁钱包）
+│   └── layout.tsx        # 全局布局
+├── store/                # 状态管理
+│   ├── index.ts          # store导出
+│   └── wallet.ts         # 钱包相关状态管理
+├── public/               # 静态资源
+└── assets/               # 其他资源
+```
+
+## 快速开始
+
+### 前提条件
+
+- Node.js v18 或更高版本
+- npm、yarn 或 pnpm 包管理器
+
+### 安装依赖
+
+```bash
+npm install
+# 或
+yarn install
+# 或
+pnpm install
+```
+
+### 配置环境变量
+
+创建 `.env` 文件并添加以下内容：
+
+```env
+# 客户端环境变量需要添加 NEXT_PUBLIC_ 前缀
+NEXT_PUBLIC_PASSWORD="设置默认密码"
+
+# 可选：开发环境助记词（生产环境不要使用）
+# NEXT_PUBLIC_MNEMONIC="助记词短语"
+```
+
+### 启动开发服务器
 
 ```bash
 npm run dev
-# or
+# 或
 yarn dev
-# or
+# 或
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 [http://localhost:3000](http://localhost:3000) 查看应用。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 构建生产版本
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+# 或
+yarn build
+# 或
+pnpm build
+```
 
-## Learn More
+### 启动生产服务器
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm start
+# 或
+yarn start
+# 或
+pnpm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 钱包功能详解
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 创建钱包
 
-## Deploy on Vercel
+1. 在首页点击"创建钱包"
+2. 设置安全密码（至少8位，包含数字、字母和特殊字符）
+3. 系统会生成唯一的12词助记词
+4. 按照提示抄写并验证助记词
+5. 钱包创建成功并自动登录
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 导入钱包
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. 在首页点击"导入钱包"
+2. 输入您的12词助记词
+3. 设置安全密码
+4. 系统验证助记词有效性
+5. 导入成功并自动登录
+
+### 查看余额
+
+登录后，钱包页面会自动连接到以太坊主网并显示您的钱包余额。系统每30秒自动刷新一次余额信息。
+
+## 安全提示
+
+- **助记词安全**：助记词是恢复钱包的唯一方式，请妥善保管，切勿泄露给他人
+- **密码保护**：设置强密码并定期更换
+- **本地存储**：钱包数据仅存储在您的本地浏览器中，不会上传到任何服务器
+- **风险警告**：Web3钱包操作具有不可逆性，请在进行任何操作前仔细核对信息
+
+## 常见问题
+
+### Q: 忘记密码怎么办？
+A: 可以使用助记词重新导入钱包并设置新密码。
+
+### Q: 助记词丢失了怎么办？
+A: 助记词是恢复钱包的唯一方式，丢失后无法找回钱包资产，请务必妥善保管。
+
+### Q: 可以在多个设备上使用同一个钱包吗？
+A: 可以，通过助记词在其他设备上导入即可实现多设备访问。
+
+## 开发指南
+
+### 代码规范
+
+- 遵循TypeScript类型安全最佳实践
+- 使用ESLint进行代码质量检查
+- 组件化开发，提高代码复用性
+- 遵循Next.js App Router规范
+
+### 区块链配置
+
+应用默认连接到以太坊主网，使用Infura提供的公共RPC节点。如需连接到其他网络，请修改 `app/wallet/page.tsx` 中的provider配置。
+
+## License
+
+MIT License
+
+## 免责声明
+
+本应用仅作为学习和参考使用，不构成任何投资建议。用户在使用过程中应自行承担所有风险和责任。开发团队不对任何资产损失负责。
