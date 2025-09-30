@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "connect wallet",
-  description: "testing connecting wallet",
+  title: "钱包管理系统",
+  description: "安全、便捷的数字钱包管理工具",
 };
 
 export default function RootLayout({

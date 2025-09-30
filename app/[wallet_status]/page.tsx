@@ -7,8 +7,12 @@ import { useRouter } from "next/navigation";
 function CreateWallet() {
   const router = useRouter(); // 导入useRouter函数
 
-  const [password, setPassword] = React.useState(process.env.NEXT_PUBLIC_PASSWORD || "");
-  const [confirmPassword, setConfirmPassword] = React.useState(process.env.NEXT_PUBLIC_PASSWORD || "");
+  const [password, setPassword] = React.useState(
+    process.env.NEXT_PUBLIC_PASSWORD || ""
+  );
+  const [confirmPassword, setConfirmPassword] = React.useState(
+    process.env.NEXT_PUBLIC_PASSWORD || ""
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,7 +24,7 @@ function CreateWallet() {
     }
 
     if (password !== confirmPassword) {
-      alert("密码不一致"); 
+      alert("密码不一致");
       return;
     }
     // 1. 实际创建钱包 (使用用户提供的密码)
