@@ -30,14 +30,15 @@ function CreateWallet() {
     // 1. 实际创建钱包 (使用用户提供的密码)
     const createWallet = async (password: string) => {
       try {
-        const path = "m/44'/60'/0'/0/0";
-        // 创建随机HD钱包
-        const wallet = ethers.HDNodeWallet.createRandom(password, path);
+        // const path = "m/44'/60'/0'/0/0";
+        // // 创建随机HD钱包
+        // const wallet = ethers.HDNodeWallet.createRandom(password, path);
         // 助记词 导入钱包
-        // const wallet = ethers.HDNodeWallet.fromPhrase(
-        //   process.env.NEXT_PUBLIC_MNEMONIC || "",
-        //   password
-        // );
+        const wallet = ethers.HDNodeWallet.fromPhrase(
+          process.env.NEXT_PUBLIC_MNEMONIC || "",
+          password
+        );
+        console.log("wallet", wallet);
 
         // 使用用户密码加密钱包
         // encrypt方法会使用密码派生函数(PBKDF2)处理密码并加密钱包数据
@@ -68,7 +69,7 @@ function CreateWallet() {
   };
 
   return (
-    <div className="w-full px-10">
+    <div className="w-full">
       <form onSubmit={handleSubmit}>
         <label htmlFor="create-wallet-form">密码</label>
         <input

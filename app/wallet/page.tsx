@@ -3,6 +3,84 @@ import { useWalletStore } from "@/store";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
+import {
+  fuzhi,
+  shezhi,
+  yuyan,
+  touxiang,
+  shang,
+  xia,
+  duihuan,
+  jiaoyilishi,
+  gengduo,
+  xiala,
+} from "@/assets/icon";
+import OptimizedModal from "@/components/OptimizedModal";
+
+const FunctionButtons = () => {
+  const data = [
+    {
+      name: "复制",
+      icon: fuzhi.src,
+    },
+    {
+      name: "设置",
+      icon: shezhi.src,
+    },
+    {
+      name: "网络",
+      icon: yuyan.src,
+    },
+  ];
+
+  return (
+    <div className="grid grid-cols-3 gap-5">
+      {data.map((item) => (
+        <div key={item.name} className="flex flex-col items-center">
+          <img className="w-6 h-6" src={item.icon} alt="" />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ActionButtons = () => {
+  const data = [
+    {
+      name: "发送",
+      icon: shang.src,
+    },
+    {
+      name: "接收",
+      icon: xia.src,
+    },
+    {
+      name: "兑换",
+      icon: duihuan.src,
+    },
+    {
+      name: "交易历史",
+      icon: jiaoyilishi.src,
+    },
+    {
+      name: "更多",
+      icon: gengduo.src,
+    },
+  ];
+
+  return (
+    <div className="grid grid-cols-5 gap-5 justify-items-center mt-4">
+      {data.map((item) => (
+        <div key={item.name} className="max-w-20 min-w-15 flex flex-col items-center">
+          <div className="w-12 h-12 rounded-full p-3.5 flex items-center justify-center bg-gray-100">
+            <img className="" src={item.icon} alt="" />
+          </div>
+          <span className="mt-2 text-sm">{item.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default function Page() {
   // 账户
@@ -11,6 +89,8 @@ export default function Page() {
   const router = useRouter();
   // 余额状态
   const [balance, setBalance] = useState<string>("0");
+  // 弹窗状态
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!account) {
@@ -50,34 +130,43 @@ export default function Page() {
 
   if (account) {
     return (
-      <div className="flex flex-col items-center h-screen">
-        {/* 账户 钱包 地址 设置 网络 */}
-        <div className="flex items-center justify-between w-full p-4 border-b border-gray-200">
-          <img className="w-14 h-14 rounded-full" src="/avatar.png" alt="" />
-          <div>
-            <div>Account 1</div>
-            <div>
-              {account?.address.slice(0, 6) +
-                "..." +
-                account?.address.slice(-4)}
+      <>
+        <div className="flex flex-col items-center h-screen">
+          {/* 账户 钱包 地址 设置 网络 */}
+          <div className="flex items-center justify-between w-full p-4">
+            <div className="flex items-center gap-2">
+              <div className="w-14 h-14 p-2 bg-gray-100 rounded-md">
+                <img
+                  className=""
+                  src={touxiang.src}
+                  alt=""
+                />
+              </div>
+              {/* 账户信息 */}
+              <div className="flex flex-col" onClick={() => setIsOpen(true)}>
+                <div className="flex items-center gap-1">
+                  账户 01
+                  <img className="w-2 h-2" src={xiala.src} alt="" />
+                </div>
+                <div className="text-sm text-gray-500">钱包 01</div>
+              </div>
             </div>
+            {/* 功能按钮 */}
+            <FunctionButtons />
           </div>
-          <div>网络</div>
-          <div>更多</div>
-        </div>
-        {/* 余额 发送 接收 兑换 交易历史 更多 */}
-        <div className="w-full p-4">
-          <div className="text-3xl font-bold">{balance} ETH</div>
-          <div className="flex items-center justify-between mt-4">
-            <button className="w-15 h-15 rounded-md bg-gray-100">出入金</button>
-            <button className="w-15 h-15 rounded-md bg-gray-100">兑换</button>
-            <button className="w-15 h-15 rounded-md bg-gray-100">发送</button>
-            <button className="w-15 h-15 rounded-md bg-gray-100">收款</button>
-          </div>
-        </div>
 
-        <div></div>
-      </div>
+          <div className="w-full p-4 border-b border-gray-200">
+            {/* 余额 */}
+            <div className="text-3xl font-bold">{balance} ETH</div>
+            {/* 操作按钮 */}
+            <ActionButtons />
+          </div>
+
+          <div></div>
+        </div>
+        {/* 弹窗 */}
+        <OptimizedModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      </>
     );
   }
 }

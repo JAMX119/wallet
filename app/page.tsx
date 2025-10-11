@@ -29,6 +29,7 @@ export default function Home() {
         encryptedWallet,
         password
       );
+
       // 存储账户到 zustand 状态管理
       useWalletStore.setState({ account });
       router.replace("/wallet");
